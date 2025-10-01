@@ -142,6 +142,30 @@
 
 
     
+    const lb = document.getElementById('lightbox');
+const lbImg = document.getElementById('lb-img');
+
+document.querySelectorAll('.gallery img').forEach(img=>{
+  img.addEventListener('click', ()=>{
+    lbImg.src = img.src;
+    lb.classList.add('is-open');
+  });
+});
+
+document.getElementById('lb-close').addEventListener('click', ()=>{
+  lb.classList.remove('is-open');
+  lbImg.src = "";
+});
+
+lb.addEventListener('click', (e)=>{
+  if(e.target === lb) {
+    lb.classList.remove('is-open');
+    lbImg.src = "";
+  }
+});
+
+
+    
 
     /* ----------------Video----------------------------------- */
     .video-wrap{position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden}
