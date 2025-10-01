@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>BAMASABA HERITAGE</title>
 
-  <!-- Google font -->
+  <!-- Google font (optional) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
   <style>
     :root{
       --bg:#f7f7f6;
       --card:#ffffff;
-      --accent:#6b3f1a;
+      --accent:#6b3f1a; /* earthy brown */
       --muted:#6e6e73;
       --soft:#f0e6de;
       --radius:14px;
@@ -23,8 +23,9 @@
       margin:0;
       background:linear-gradient(180deg,var(--bg),#fff);
       color:#222;
-      line-height:1.5;
       -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
     }
 
     header{
@@ -39,8 +40,12 @@
     }
     .container{max-width:1100px;margin:0 auto;padding:0 20px}
 
-    .brand{display:flex;align-items:center;gap:14px}
-    .logo{width:56px;height:56px;border-radius:12px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--accent);box-shadow:0 6px 18px rgba(107,63,26,0.08);}
+    .brand{
+      display:flex;align-items:center;gap:14px;
+    }
+    .logo{
+      width:56px;height:56px;border-radius:12px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--accent);box-shadow:0 6px 18px rgba(107,63,26,0.08);
+    }
     .brand h1{margin:0;font-size:18px;letter-spacing:0.6px}
     .brand p{margin:0;font-size:12px;color:var(--muted)}
 
@@ -49,13 +54,25 @@
     .nav-link:hover{background:#fff;font-weight:700;color:var(--accent);box-shadow:0 6px 12px rgba(0,0,0,0.04)}
 
     /* Hero */
-    .hero{display:grid;grid-template-columns: 1fr 420px;gap:28px;align-items:center;padding:36px 0}
-    .hero-card{background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:0 10px 30px rgba(18,18,18,0.04);}
+    .hero{
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:28px;
+      align-items:center;
+      padding:36px 0;
+    }
+    .hero-card{
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:24px;
+      box-shadow:0 10px 30px rgba(18,18,18,0.04);
+    }
     .hero h2{margin:0 0 10px;font-size:28px;color:var(--accent)}
     .hero p.lead{color:var(--muted);margin:0 0 18px}
     .cta-row{display:flex;gap:12px;flex-wrap:wrap}
     .btn{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;border:0;font-weight:700;cursor:pointer}
     .btn.alt{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+
     .hero-media{border-radius:12px;overflow:hidden;display:block;height:100%;box-shadow:0 8px 26px rgba(0,0,0,0.08)}
     .hero-media img{width:100%;height:100%;object-fit:cover;display:block}
 
@@ -63,19 +80,102 @@
     section{padding:20px 0}
     h3{color:var(--accent);margin:0 0 12px}
     .card{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 6px 20px rgba(0,0,0,0.04)}
-    .two-col{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start;}
+
+    .two-col{
+      display:grid;
+      grid-template-columns:1fr 360px;
+      gap:18px;
+      align-items:start;
+    }
+
+    /* About text styling */
     .content p{margin:0 0 12px;color:#333}
     .bullets{margin:8px 0 16px;padding-left:18px;color:#333}
     .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--soft);font-weight:700;color:var(--accent);margin-right:8px}
 
-    /* Gallery */
-    .gallery{display:grid;grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));gap: 12px;margin-top: 12px;}
-    .gallery figure{margin:0;cursor:pointer;border-radius:10px;overflow:hidden;position:relative}
-    .gallery img{display:block;width:100%;height:140px;object-fit:cover;transition:transform .36s ease}
-    .gallery figure:hover img{transform:scale(1.06)}
+   /* Gallery */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+.gallery figure {
+  margin: 0;
+  cursor: pointer;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+.gallery img {
+  display: block;
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  transition: transform .36s ease;
+}
+.gallery figure:hover img {
+  transform: scale(1.06);
+}
+/* Lightbox (Full-Screen View) */
+#lightbox {
+  display: none; /* hidden by default */
+  position: fixed;
+  z-index: 9999;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
+}
+
+#lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.8);
+}
+
+#lightbox #close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 40px;
+  color: #fff;
+  cursor: pointer;
+}
+
+    // Select elements
+const galleryImages = document.querySelectorAll('.gallery img');
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const closeBtn = document.getElementById('close');
+
+// Open lightbox on click
+galleryImages.forEach(img => {
+  img.addEventListener('click', () => {
+    lightbox.style.display = 'flex';
+    lightboxImg.src = img.src;
+  });
+});
+
+// Close lightbox
+closeBtn.addEventListener('click', () => {
+  lightbox.style.display = 'none';
+});
+
+// Close when clicking outside the image
+lightbox.addEventListener('click', (e) => {
+  if (e.target !== lightboxImg) {
+    lightbox.style.display = 'none';
+  }
+});
+
 
     /* Lightbox */
-    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;padding:20px;z-index:9999;}
+    .lightbox{
+      position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;padding:20px;z-index:60;
+    }
     .lightbox.is-open{display:flex}
     .lightbox img{max-width:90%;max-height:86%;border-radius:10px;box-shadow:0 12px 50px rgba(0,0,0,0.6)}
 
@@ -106,6 +206,7 @@
           <p>Celebrating the identity, traditions & history of the Bamasaba</p>
         </div>
       </div>
+
       <nav aria-label="Main navigation">
         <button class="nav-link" data-scroll="#about">About</button>
         <button class="nav-link" data-scroll="#gallery">Gallery</button>
@@ -123,121 +224,271 @@
         <h2>Bamasaba Cultural Heritage</h2>
         <p class="lead">Dedicated to celebrating, preserving, and promoting the unique identity, history, and traditions of the Bamasaba people of Eastern Uganda.</p>
         <div class="badge">Mount Elgon Region</div>
+        <div style="height:8px"></div>
         <p style="margin-bottom:18px;color:var(--muted)">Rooted in rich customs and timeless values, our heritage reflects a story of resilience, unity, and cultural pride.</p>
         <div class="cta-row">
           <button class="btn" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">Learn More</button>
           <button class="btn alt" onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})">View Gallery</button>
         </div>
+        <div style="margin-top:18px;color:var(--muted);font-size:13px">Share the heritage — bring elders, youth & visitors together.</div>
       </div>
-      <div class="hero-media"><img src="images/imb1.jpeg" alt="Mount Elgon culture — Bamasaba lands"></div>
+
+      <div class="hero-media" aria-hidden="true">
+        <img src="images/imb1.jpeg" alt="Mount Elgon culture — Bamasaba lands">
+      </div>
     </section>
 
-    <!-- ABOUT -->
-    <section id="about">
+    <!-- ABOUT & DETAILS -->
+    <section id="about" aria-labelledby="about-heading">
       <div class="two-col">
         <div class="card content">
-          <h3>About Bamasaba</h3>
-          <p>The Bamasaba Cultural Heritage is dedicated to celebrating, preserving, and promoting the unique identity, history, and traditions of the Bamasaba people of Eastern Uganda.</p>
-          <h4>Our Origins</h4>
-          <p>The Bamasaba, also known as the Bagisu...</p>
+          <h3 id="about-heading">About Bamasaba</h3>
+          <p>The Bamasaba Cultural Heritage is dedicated to celebrating, preserving, and promoting the unique identity, history, and traditions of the Bamasaba people of Eastern Uganda. Rooted in rich customs and timeless values, our heritage reflects a story of resilience, unity, and cultural pride that continues to inspire generations.</p>
+
+          <h4 style="margin-top:14px">Our Origins</h4>
+          <p>The Bamasaba, also known as the Bagisu, are a Bantu-speaking community who trace their ancestry to Masaba, the legendary forefather whose name was given to Mount Elgon (Masaba). They inhabit the fertile slopes of the mountain, sharing ties with neighboring Bukusu in Kenya. The Bamasaba identity is built on deep respect for nature, strong kinship bonds, and enduring cultural practices.</p>
+
           <h4>Totems and Clans</h4>
+          <p>Clans (ebibunu) are identified by totems (ekikoko). Totems guide identity, morality and belonging — members do not eat, hunt or harm their totem animal.</p>
           <ul class="bullets">
-            <li><strong>Engabi (Antelope)</strong> – grace and unity</li>
-            <li><strong>Enjovu (Elephant)</strong> – strength and wisdom</li>
-            <li><strong>Endebe (Drum)</strong> – communication and celebration</li>
+            <li><strong>Engabi (Antelope)</strong> – symbol of grace and unity</li>
+            <li><strong>Enjovu (Elephant)</strong> – symbol of strength and wisdom</li>
+            <li><strong>Endebe (Drum)</strong> – symbol of communication and celebration</li>
           </ul>
+
+          <h4>Diversity</h4>
+          <p>Dialectal differences in Lumasaba, ties to Bukusu and other Elgon communities, and a blend of traditional beliefs with Christianity and Islam create a vibrant, adaptive culture.</p>
+
+          <h4>Traditional Foods</h4>
+          <p>Food is central to identity and hospitality:</p>
+          <ul class="bullets">
+            <li><strong>Malewa</strong> (bamboo shoots)</li>
+            <li><strong>Obusuma</strong> (Ugali/Posho)</li>
+            <li>Sweet potatoes, bananas, millet</li>
+            <li>Local brews (shared during ceremonies)</li>
+          </ul>
+
+          <h4>Social Life</h4>
+          <p>Strong kinship, respect for elders, marriage rituals, collective work and community values bind the Bamasaba together.</p>
+
+          <p style="margin-top:10px"><em>Through rituals like Imbalu (circumcision), dances such as Kadodi, symbolic foods, and sacred totems, the Bamasaba continue to celebrate a culture that binds generations.</em></p>
         </div>
+
         <aside>
-          <div class="card">
-            <h4>Quick Facts</h4>
-            <p style="color:var(--muted)">Region: Mount Elgon slopes</p>
-            <p style="color:var(--muted)">Language: Lumasaba</p>
-            <p style="color:var(--muted)">Famous ritual: Imbalu</p>
+          <div class="card" style="display:flex;flex-direction:column;gap:12px">
+            <div>
+              <h4>Quick Facts</h4>
+              <p style="color:var(--muted);margin:6px 0 0">Region: Mount Elgon slopes — Eastern Uganda</p>
+              <p style="color:var(--muted);margin:6px 0 0">Language: Lumasaba (dialects)</p>
+              <p style="color:var(--muted);margin:6px 0 0">Famous ritual: Imbalu</p>
+            </div>
+
+            <div>
+              <h4>Upcoming Events</h4>
+              <ul style="margin:8px 0 0;padding-left:18px;color:#333">
+                <li>Imbalu Festival — date TBA</li>
+                <li>Traditional Foods Fair — harvest season</li>
+                <li>Music & Dance Exchange — cultural center</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4>Support Preservation</h4>
+              <p style="color:var(--muted);margin:6px 0 0">Join our documentation drives, sponsor youth workshops, or donate to cultural archives.</p>
+              <button class="btn" onclick="alert('Thank you! Replace with contact/signup action.')">Get Involved</button>
+            </div>
           </div>
         </aside>
       </div>
     </section>
 
-    <!-- GALLERY -->
+
+
+    
+
+    <!-- --------------------------------------GALLERY ------------------------------->
     <section id="gallery">
       <h3>Gallery</h3>
       <p style="color:var(--muted)">Click any image to enlarge.</p>
-      <div class="gallery">
-        <figure tabindex="0" data-src="images/masaba.jpeg"><img src="images/masaba.jpeg" alt="Mount Elgon slopes"></figure>
-        <figure tabindex="0" data-src="images/f1.jpeg"><img src="images/f1.jpeg" alt="Festival dance"></figure>
-        <figure tabindex="0" data-src="images/f2.jpeg"><img src="images/f2.jpeg" alt="Traditional foods"></figure>
-      </div>
+      <div class="gallery" aria-live="polite">
+        <!-- Replace src with real images -->
+        
+         <figure tabindex="0" data-src="images/masaba.jpeg">
+          <img src="images/masaba.jpeg" alt="Mount Elgon slopes and village">
+        </figure>
+
+        <figure tabindex="0" data-src="images/f1.jpeg">
+          <img src="images/f1.jpeg" alt="Mount Elgon slopes and village">
+        </figure>
+
+         <figure tabindex="0" data-src="images/f2.jpeg">
+          <img src="images/f2.jpeg" alt="Mount Elgon slopes and village">
+        </figure>
+
+         <figure tabindex="0" data-src="images/m1.jpeg">
+          <img src="images/m1.jpeg" alt="Mount Elgon slopes and village">
+        </figure>
+ <figure tabindex="0" data-src="images/m2.jpeg">
+          <img src="images/m2.jpeg" alt="Mount Elgon slopes and village">
+        </figure>
+
+         <figure tabindex="0" data-src="images/m3.jpeg">
+          <img src="images/m3.jpeg" alt="Mount Elgon slopes and village">
+        </figure>
+
+         <figure tabindex="0" data-src="images/imb1.jpeg">
+          <img src="images/imb1.jpeg" alt="Mount Elgon slopes and village">
+        </figure>
+
+         <figure tabindex="0" data-src="images/imb2.jpeg">
+          <img src="images/imb2.jpeg" alt="Mount Elgon slopes and village">
+        </figure>
+
+         <figure tabindex="0" data-src="images/imb3.jpeg">
+          <img src="images/imb3.jpeg" alt="Mount Elgon slopes and village">
+        </figure>
+
+         <figure tabindex="0" data-src="images/inzu.jpeg">
+          <img src="images/inzu.jpeg" alt="Mount Elgon slopes and village">
+        </figure>
+            </div>
     </section>
 
-    <!-- Lightbox -->
-    <div id="lightbox" class="lightbox" aria-hidden="true">
-      <button id="lb-close" style="position:absolute;right:18px;top:18px;background:transparent;border:0;color:white;font-size:20px;cursor:pointer">✕</button>
+
+    
+    <!------------------------------ Lightbox --------------------------------------------------->
+    
+    <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Image preview">
+      <button id="lb-close" style="position:absolute;right:18px;top:18px;background:transparent;border:0;color:white;font-size:20px;padding:8px;cursor:pointer">✕</button>
       <img id="lb-img" src="" alt="">
     </div>
 
-    <!-- MEDIA -->
+    <!-- Video / Media -->
     <section id="video">
       <h3>Media</h3>
+      <p style="color:var(--muted)">Short documentary and cultural performances.</p>
+
       <div class="card">
-        <div class="video-wrap">
-          <iframe id="yt" src="https://www.youtube.com/embed/1BlFlz4vH2g" title="Bamasaba culture sample video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div style="display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start">
+          <div>
+            <div class="video-wrap" aria-hidden="false">
+              <!-- Replace the src below with your YouTube embed or local video file -->
+            <iframe id="yt" 
+    width="560" 
+    height="315" 
+    src="https://www.youtube.com/embed/1BlFlz4vH2g" 
+    title="Bamasaba culture sample video" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    allowfullscreen>
+</iframe>
+            </div>
+            <p style="color:var(--muted);margin-top:8px">If you have an MP4 file, you can replace the iframe with:
+              <code style="background:#f3f3f3;padding:4px;border-radius:6px;">&lt;video controls src="media/yourvideo.mp4"&gt;&lt;/video&gt;</code>
+            </p>
+          </div>
+
+          <aside style="display:flex;flex-direction:column;gap:10px">
+            <h4>Featured</h4>
+            <p style="color:var(--muted)">A short film showcasing Imbalu, local life, and traditional music.</p>
+            <div style="display:flex;gap:8px">
+              <button class="btn" onclick="document.getElementById('yt').scrollIntoView({behavior:'smooth'})">Watch</button>
+              <button class="btn alt" onclick="alert('Replace with share or download action')">Share</button>
+            </div>
+          </aside>
         </div>
       </div>
     </section>
 
-    <!-- CONTACT -->
+    <!-- Footer / Contact -->
     <section id="contact">
-      <div class="card">
+      <div class="card" style="display:flex;flex-direction:column;gap:12px">
         <h3>Contact & Archive</h3>
-        <form id="contactForm">
-          <input name="name" placeholder="Name" required />
-          <input name="email" placeholder="Email" required />
-          <textarea name="message" placeholder="Message"></textarea>
-          <button class="btn" type="submit">Send</button>
+        <p style="color:var(--muted)">To partner with us, contribute media, or support cultural preservation projects, please reach out.</p>
+
+        <form id="contactForm" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <input name="name" placeholder="Name" required style="padding:10px;border-radius:8px;border:1px solid #e6e6e6" />
+          <input name="email" placeholder="Email" required style="padding:10px;border-radius:8px;border:1px solid #e6e6e6" />
+          <textarea name="message" placeholder="Message" rows="3" style="grid-column:1/3;padding:10px;border-radius:8px;border:1px solid #e6e6e6"></textarea>
+          <div style="grid-column:1/3;display:flex;justify-content:flex-end">
+            <button class="btn" type="submit">Send Message</button>
+          </div>
         </form>
+
       </div>
     </section>
 
   </main>
 
   <footer>
-    <div class="container flex" style="justify-content:space-between">
-      <div class="pill">BAMASABA HERITAGE</div>
-      <div>© <span id="year"></span> All rights reserved</div>
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center">
+      <div style="display:flex;gap:12px;align-items:center">
+        <div class="pill">BAMASABA HERITAGE</div>
+        <div style="color:var(--muted)">© <span id="year"></span> All rights reserved</div>
+      </div>
+
+      <div style="color:var(--muted);font-size:13px">Built with respect for culture · Preserve · Share · Celebrate</div>
     </div>
   </footer>
 
   <script>
-    // Year
+    // set year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Smooth scroll
+    // Smooth nav scrolling
     document.querySelectorAll('[data-scroll]').forEach(btn=>{
       btn.addEventListener('click', ()=> {
-        const el = document.querySelector(btn.getAttribute('data-scroll'));
+        const sel = btn.getAttribute('data-scroll');
+        const el = document.querySelector(sel);
         if(el) el.scrollIntoView({behavior:'smooth'});
       });
     });
 
-    // Lightbox
+    // Gallery lightbox
     const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lb-img');
-    document.querySelectorAll('.gallery figure').forEach(fig=>{
-      const img = fig.querySelector('img');
-      fig.addEventListener('click', ()=> {
-        lbImg.src = fig.dataset.src || img.src;
-        lb.classList.add('is-open');
+    const figures = document.querySelectorAll('.gallery figure');
+
+    function openLightbox(src, alt) {
+      lbImg.src = src;
+      lbImg.alt = alt || 'Preview';
+      lb.classList.add('is-open');
+      lb.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      lb.classList.remove('is-open');
+      lbImg.src = '';
+      lb.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+    }
+
+    figures.forEach(fig=>{
+      const thumb = fig.querySelector('img');
+      const big = fig.dataset.src || thumb.src;
+      const alt = thumb.alt || '';
+      fig.addEventListener('click', ()=> openLightbox(big,alt));
+      fig.addEventListener('keydown', (e)=>{
+        if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(big,alt); }
       });
     });
-    document.getElementById('lb-close').addEventListener('click', ()=> lb.classList.remove('is-open'));
-    lb.addEventListener('click', e=>{ if(e.target===lb) lb.classList.remove('is-open') });
 
-    // Contact form demo
-    document.getElementById('contactForm').addEventListener('submit', e=>{
-      e.preventDefault();
-      alert('Thanks! Your message was received.');
-      e.target.reset();
+    document.getElementById('lb-close').addEventListener('click', closeLightbox);
+    lb.addEventListener('click', (e)=>{
+      if(e.target === lb || e.target === lbImg) closeLightbox();
+    });
+    document.addEventListener('keydown', (e)=> {
+      if(e.key === 'Escape') closeLightbox();
+    });
+
+    // Simple contact form demo (replace with real submission)
+    document.getElementById('contactForm').addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      const form = new FormData(this);
+      alert('Thanks, ' + (form.get('name') || 'friend') + '! Your message was received (demo). Replace with real backend.');
+      this.reset();
     });
   </script>
+
 </body>
 </html>
