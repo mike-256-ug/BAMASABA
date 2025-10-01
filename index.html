@@ -93,15 +93,88 @@
     .bullets{margin:8px 0 16px;padding-left:18px;color:#333}
     .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--soft);font-weight:700;color:var(--accent);margin-right:8px}
 
-    /* Gallery */
-    .gallery{
-      display:grid;
-      grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
-      gap:12px;margin-top:12px;
-    }
-    .gallery figure{margin:0;cursor:pointer;border-radius:10px;overflow:hidden;position:relative}
-    .gallery img{display:block;width:100%;height:140px;object-fit:cover;transition:transform .36s ease}
-    .gallery figure:hover img{transform:scale(1.06)}
+   /* Gallery */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.gallery figure {
+  margin: 0;
+  cursor: pointer;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.gallery img {
+  display: block;
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  transition: transform .36s ease;
+}
+
+.gallery figure:hover img {
+  transform: scale(1.06);
+}
+
+/* Lightbox (Full-Screen View) */
+#lightbox {
+  display: none; /* hidden by default */
+  position: fixed;
+  z-index: 9999;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
+}
+
+#lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.8);
+}
+
+#lightbox #close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 40px;
+  color: #fff;
+  cursor: pointer;
+}
+
+    // Select elements
+const galleryImages = document.querySelectorAll('.gallery img');
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const closeBtn = document.getElementById('close');
+
+// Open lightbox on click
+galleryImages.forEach(img => {
+  img.addEventListener('click', () => {
+    lightbox.style.display = 'flex';
+    lightboxImg.src = img.src;
+  });
+});
+
+// Close lightbox
+closeBtn.addEventListener('click', () => {
+  lightbox.style.display = 'none';
+});
+
+// Close when clicking outside the image
+lightbox.addEventListener('click', (e) => {
+  if (e.target !== lightboxImg) {
+    lightbox.style.display = 'none';
+  }
+});
+
 
     /* Lightbox */
     .lightbox{
